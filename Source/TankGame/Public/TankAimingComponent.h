@@ -11,6 +11,12 @@
 #include "Components/ActorComponent.h"
 #include "TankAimingComponent.generated.h"
 
+UENUM()
+enum class EFiringState :uint8 {
+	Aiming,
+	Locked,
+	Reloading
+};
 
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
 class TANKGAME_API UTankAimingComponent : public UActorComponent
@@ -34,10 +40,22 @@ public:
 	void AimAt(FVector HitLocation);
 	UTankBarrel* Barrel = nullptr;
 	UTankTurret* Turret = nullptr;
+
+	UPROPERTY(EditAnywhere, Category = "Setup")
+		float TankReloadTime = 3.0f;
+	//к╕ез╫г╤х
+	UPROPERTY(EditAnywhere, Category = "Setup")
+		float FireWhileAimingUnfinished = 3;
 	UPROPERTY(EditAnywhere, Category = "Setup")
 		float LaunachSpeed = 10000.0f;
+
 	UFUNCTION(BlueprintCallable, Category = "GamePlay")
 		void Fire();
 	UPROPERTY(EditAnywhere, Category = "Setup")
-	TSubclassOf<AProjectile> ProjectileType;
+		TSubclassOf<AProjectile> ProjectileType;
+	UPROPERTY(BlueprintReadOnly)
+		EFiringState FiringState = EFiringState::Aiming;
+
+private:
+	double LastFireTime = 0;
 };

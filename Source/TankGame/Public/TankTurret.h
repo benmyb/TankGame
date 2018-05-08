@@ -22,4 +22,6 @@ public:
 	
 	void MoveTurret(FVector AimDirection);
 	
+	float ChangeYaw = 0.0f;
+	float GetChangeYaw() { return ChangeYaw; }
 };

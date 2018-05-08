@@ -28,8 +28,17 @@ void UTankAimingComponent::BeginPlay()
 void UTankAimingComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
-
-	// ...
+	if (Barrel == nullptr || Turret == nullptr)return;
+	if ((FPlatformTime::Seconds() - LastFireTime) < TankReloadTime) {
+		FiringState = EFiringState::Reloading;
+		return;
+	}
+	if (FMath::Abs(Turret->GetChangeYaw()) > FireWhileAimingUnfinished) {
+		FiringState = EFiringState::Aiming;
+	}
+	else {
+		FiringState = EFiringState::Locked;
+	}
 }
 
 void UTankAimingComponent::Initalize(UTankBarrel * BarrelToSet, UTankTurret * TurretToSet)
@@ -66,8 +75,9 @@ void UTankAimingComponent::AimAt(FVector HitLocation)
 
 void UTankAimingComponent::Fire()
 {
-	UE_LOG(LogTemp, Warning, TEXT("Fire!"));
-	if (Barrel == nullptr || ProjectileType == nullptr)return;
+	//UE_LOG(LogTemp, Warning, TEXT("Fire!"));
+	bool isReadyToFire = (FPlatformTime::Seconds() - LastFireTime) > TankReloadTime;
+	if (Barrel == nullptr || ProjectileType == nullptr || !isReadyToFire)return;
 
 	AProjectile* Projectile = GetWorld()->SpawnActor<AProjectile>(
 		ProjectileType,
@@ -75,5 +85,7 @@ void UTankAimingComponent::Fire()
 		Barrel->GetSocketRotation(FName("FireLocation"))
 		);
 	Projectile->LaunchProjectile(LaunachSpeed);
+	LastFireTime = FPlatformTime::Seconds();
+
 }
 

@@ -21,8 +21,8 @@ class TANKGAME_API ATankPlayerController : public APlayerController
 public:
 	virtual void BeginPlay() override;
 	virtual void Tick(float DeltaTime) override;
-
-	ATank* GetControlledTank();
+	UFUNCTION(BlueprintCallable, Category = "Setup")
+		ATank* GetControlledTank();
 	void AimToTarget();
 	//得到视线集中的目标向量，bool表示有没有集中在一个目标上
 	bool GetSightRayHitLocation(FVector &OutHitLocation);
