@@ -20,7 +20,9 @@ void ATankPlayerController::AimToTarget()
 	FVector HitLocation;
 	if (GetSightRayHitLocation(HitLocation)) {
 		//有集中的目标
-		UE_LOG(LogTemp, Warning, TEXT("Hit location:%s"),*HitLocation.ToString());
+		//UE_LOG(LogTemp, Warning, TEXT("Hit location:%s"),*HitLocation.ToString());
+		GetControlledTank()->FindComponentByClass<UTankAimingComponent>()->AimAt(HitLocation);
+
 	}
 }
 
