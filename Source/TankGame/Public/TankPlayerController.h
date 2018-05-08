@@ -3,7 +3,7 @@
 #pragma once
 
 #include "Tank.h"
-
+#include "Engine/World.h"
 
 #include "CoreMinimal.h"
 #include "GameFramework/PlayerController.h"
@@ -19,9 +19,20 @@ class TANKGAME_API ATankPlayerController : public APlayerController
 	
 public:
 	virtual void BeginPlay() override;
+	virtual void Tick(float DeltaTime) override;
 
 	ATank* GetControlledTank();
+	void AimToTarget();
+	//得到视线集中的目标向量，bool表示有没有集中在一个目标上
+	bool GetSightRayHitLocation(FVector &OutHitLocation);
+	//视线向量击中的位置
+	bool GetLookVectorHitLocation(FVector LookDirection, FVector &OutHitLocation);
 	
-	
-	
+private:
+	//准心所在位置占屏幕比例
+	float CrosshairXLocation = 0.5f;
+	float CrosshairYLocation = 0.3f;
+	//瞄准范围
+	UPROPERTY(EditAnywhere)
+		float LineTraceRange = 100000.0f;
 };
