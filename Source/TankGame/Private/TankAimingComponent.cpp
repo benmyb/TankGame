@@ -64,3 +64,16 @@ void UTankAimingComponent::AimAt(FVector HitLocation)
 	}
 }
 
+void UTankAimingComponent::Fire()
+{
+	UE_LOG(LogTemp, Warning, TEXT("Fire!"));
+	if (Barrel == nullptr || ProjectileType == nullptr)return;
+
+	AProjectile* Projectile = GetWorld()->SpawnActor<AProjectile>(
+		ProjectileType,
+		Barrel->GetSocketLocation(FName("FireLocation")),
+		Barrel->GetSocketRotation(FName("FireLocation"))
+		);
+	Projectile->LaunchProjectile(LaunachSpeed);
+}
+

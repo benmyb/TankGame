@@ -5,6 +5,7 @@
 #include "TankBarrel.h"
 #include "TankTurret.h"
 #include "Kismet/GameplayStatics.h"
+#include "Projectile.h"
 
 #include "CoreMinimal.h"
 #include "Components/ActorComponent.h"
@@ -34,7 +35,9 @@ public:
 	UTankBarrel* Barrel = nullptr;
 	UTankTurret* Turret = nullptr;
 	UPROPERTY(EditAnywhere, Category = "Setup")
-		float LaunachSpeed = 100000.0f;
-
-	
+		float LaunachSpeed = 10000.0f;
+	UFUNCTION(BlueprintCallable, Category = "GamePlay")
+		void Fire();
+	UPROPERTY(EditAnywhere, Category = "Setup")
+	TSubclassOf<AProjectile> ProjectileType;
 };
