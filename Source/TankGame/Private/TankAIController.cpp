@@ -15,6 +15,22 @@ void ATankAIController::BeginPlay() {
 	}
 }
 
+void ATankAIController::Tick(float DeltaTime)
+{
+	Super::Tick(DeltaTime);
+	if (GetControlledTank()) {
+		//让坦克向玩家移动
+		UE_LOG(LogTemp, Warning, TEXT("Player Tank at %s"), *GetPlayerTank()->GetActorLocation().ToString());
+		MoveToActor(GetPlayerTank(), AcceptanceRadius);
+
+		auto AimingComponent = GetControlledTank()->FindComponentByClass<UTankAimingComponent>();
+		AimingComponent->AimAt(GetPlayerTank()->GetActorLocation());
+		if (AimingComponent->FiringState == EFiringState::Locked) {
+			AimingComponent->Fire();
+		}
+	}
+}
+
 ATank * ATankAIController::GetControlledTank() {
 
 	return Cast<ATank>(GetPawn());

@@ -25,6 +25,9 @@ public:
 		void MoveRight(float Throttle);
 
 
+	virtual void RequestDirectMove(const FVector& MoveVelocity, bool bForceMaxSpeed) override;
+	/** path following: request new move input (normal vector = full strength) */
+	//virtual void RequestPathMove(const FVector& MoveInput);
 private:
 	UTankTrack * LeftTrack = nullptr;
 	UTankTrack * RightTrack = nullptr;
