@@ -3,6 +3,16 @@
 #include "TankPlayerController.h"
 
 
+void ATankPlayerController::SetPawn(APawn * InPawn)
+{
+	Super::SetPawn(InPawn);
+	if (InPawn) {
+		auto ProcessTank = Cast<ATank>(InPawn);
+		if (!ProcessTank)return;
+		ProcessTank->OnDeath.AddUniqueDynamic(this, &ATankPlayerController::OnControlledTankDeath);
+	}
+}
+
 void ATankPlayerController::Tick(float DeltaTime)
 {
 	//移动炮塔到瞄准位置
@@ -61,6 +71,12 @@ bool ATankPlayerController::GetLookVectorHitLocation(FVector LookDirection, FVec
 	}
 	OutHitLocation = FVector(0.0f);
 	return false;
+}
+
+void ATankPlayerController::OnControlledTankDeath()
+{
+	//坦克坏掉处理函数
+
 }
 
 void ATankPlayerController::BeginPlay() {

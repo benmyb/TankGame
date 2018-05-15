@@ -32,3 +32,21 @@ void ATank::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 
 }
 
+float ATank::TakeDamage(float DamageAmount, FDamageEvent const & DamageEvent, AController * EventInstigator, AActor * DamageCauser)
+{
+	float DamagePoint = DamageAmount;
+	float DamageToApply = FMath::Clamp<float>(DamagePoint, 0.0f, CurrentHp);
+	CurrentHp -= DamageToApply;
+	if (CurrentHp <= 0) {
+		//Ì¹¿ËËÀÍö
+		//UE_LOG(LogTemp, Warning, TEXT("Tank dead,Tank Name:%s"), *GetName());
+		OnDeath.Broadcast();
+	}
+	return DamageToApply;
+}
+
+float ATank::GetHealthPercentage()
+{
+	return CurrentHp / MaxHp;
+}
+

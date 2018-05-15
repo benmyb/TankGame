@@ -7,6 +7,7 @@
 #include "Particles/ParticleSystemComponent.h"
 #include "PhysicsEngine/RadialForceComponent.h"
 #include "Kismet/GameplayStatics.h"
+#include "Engine/World.h"
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
@@ -42,7 +43,16 @@ public:
 		UParticleSystemComponent* ImpactParticle = nullptr;
 	UPROPERTY(VisibleAnywhere, Category = "Components")
 		URadialForceComponent* ExplosionForce = nullptr;
-
+	UPROPERTY(EditAnywhere, Category = "Setup")
+		float ProjectileBaseDamage = 20.0f;
+	UPROPERTY(EditAnywhere, Category = "Setup")
+		float ProjectileMinimumDamage = 5.0f;
+	UPROPERTY(EditAnywhere, Category = "Setup")
+		float ProjectileDamageFallOff = 0.05f;
+	UPROPERTY(EditAnywhere, Category = "Setup")
+		float ProjectileDamageInnerRadius = 10.0f;
+	UPROPERTY(EditAnywhere, Category = "Setup")
+		float ProjectileDamageOuterRadius = 500.0f;
 
 	void LaunchProjectile(float Speed);
 

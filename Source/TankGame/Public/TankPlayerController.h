@@ -20,6 +20,7 @@ class TANKGAME_API ATankPlayerController : public APlayerController
 	
 public:
 	virtual void BeginPlay() override;
+	virtual void SetPawn(APawn* InPawn) override;
 	virtual void Tick(float DeltaTime) override;
 	UFUNCTION(BlueprintCallable, Category = "Setup")
 		ATank* GetControlledTank();
@@ -28,6 +29,8 @@ public:
 	bool GetSightRayHitLocation(FVector &OutHitLocation);
 	//视线向量击中的位置
 	bool GetLookVectorHitLocation(FVector LookDirection, FVector &OutHitLocation);
+	UFUNCTION()
+		void OnControlledTankDeath();
 	
 private:
 	//准心所在位置占屏幕比例

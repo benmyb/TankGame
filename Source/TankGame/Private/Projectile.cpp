@@ -64,5 +64,17 @@ void AProjectile::OnHit(UPrimitiveComponent * HitComponent, AActor * OtherActor,
 	CollisionMesh->DestroyComponent();
 
 	ExplosionForce->FireImpulse();
+
+	UGameplayStatics::ApplyRadialDamageWithFalloff(
+		this,
+		ProjectileBaseDamage,
+		ProjectileMinimumDamage,
+		GetActorLocation(),
+		ProjectileDamageInnerRadius,
+		ProjectileDamageOuterRadius,
+		ProjectileDamageFallOff,
+		UDamageType::StaticClass(),
+		TArray<AActor*>()
+	);
 }
 

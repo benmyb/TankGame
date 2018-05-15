@@ -15,12 +15,22 @@ void ATankAIController::BeginPlay() {
 	}
 }
 
+void ATankAIController::SetPawn(APawn * InPawn)
+{
+	Super::SetPawn(InPawn);
+	if (InPawn) {
+		auto ProcessTank = Cast<ATank>(InPawn);
+		if (!ProcessTank)return;
+		ProcessTank->OnDeath.AddUniqueDynamic(this, &ATankAIController::OnControlledTankDeath);
+	}
+}
+
 void ATankAIController::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 	if (GetControlledTank()) {
 		//让坦克向玩家移动
-		UE_LOG(LogTemp, Warning, TEXT("Player Tank at %s"), *GetPlayerTank()->GetActorLocation().ToString());
+		//UE_LOG(LogTemp, Warning, TEXT("Player Tank at %s"), *GetPlayerTank()->GetActorLocation().ToString());
 		MoveToActor(GetPlayerTank(), AcceptanceRadius);
 
 		auto AimingComponent = GetControlledTank()->FindComponentByClass<UTankAimingComponent>();
@@ -43,4 +53,12 @@ ATank * ATankAIController::GetPlayerTank()
 		return nullptr;
 	}
 	return PlayerTank;
+}
+
+void ATankAIController::OnControlledTankDeath()
+{
+	//坦克坏掉处理函数
+	if (GetControlledTank()) {
+		GetControlledTank()->DetachFromControllerPendingDestroy();
+	}
 }

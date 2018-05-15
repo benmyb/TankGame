@@ -20,6 +20,7 @@ class TANKGAME_API ATankAIController : public AAIController
 	
 public:
 	virtual void BeginPlay() override;
+	virtual void SetPawn(APawn* InPawn) override;
 	virtual void Tick(float DeltaTime) override;
 
 	ATank * GetControlledTank();
@@ -27,4 +28,7 @@ public:
 	
 	UPROPERTY(EditAnywhere, Category = "Setup")
 		float AcceptanceRadius = 3000.0f;
+
+	UFUNCTION()
+		void OnControlledTankDeath();
 };
