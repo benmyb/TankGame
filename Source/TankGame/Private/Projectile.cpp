@@ -26,6 +26,11 @@ AProjectile::AProjectile()
 	ImpactParticle->AttachTo(RootComponent);
 	ImpactParticle->SetAutoActivate(false);
 
+	ExplosionForce = CreateDefaultSubobject<URadialForceComponent>(FName("ExplosionForce"));
+	ExplosionForce->AttachTo(RootComponent);
+	ExplosionForce->SetAutoActivate(false);
+
+
 }
 
 // Called when the game starts or when spawned
@@ -55,5 +60,9 @@ void AProjectile::OnHit(UPrimitiveComponent * HitComponent, AActor * OtherActor,
 	ImpactParticle->Activate();
 
 	CollisionMesh->SetNotifyRigidBodyCollision(false);
+	SetRootComponent(ImpactParticle);
+	CollisionMesh->DestroyComponent();
+
+	ExplosionForce->FireImpulse();
 }
 

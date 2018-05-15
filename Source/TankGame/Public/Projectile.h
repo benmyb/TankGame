@@ -5,6 +5,8 @@
 #include "GameFramework/ProjectileMovementComponent.h"
 #include "Components/StaticMeshComponent.h"
 #include "Particles/ParticleSystemComponent.h"
+#include "PhysicsEngine/RadialForceComponent.h"
+#include "Kismet/GameplayStatics.h"
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
@@ -38,6 +40,8 @@ public:
 	//击中物体粒子效果
 	UPROPERTY(VisibleAnywhere, Category = "Components")
 		UParticleSystemComponent* ImpactParticle = nullptr;
+	UPROPERTY(VisibleAnywhere, Category = "Components")
+		URadialForceComponent* ExplosionForce = nullptr;
 
 
 	void LaunchProjectile(float Speed);
