@@ -29,6 +29,7 @@ public:
 	UPROPERTY(EditAnywhere, Category = "Setup")
 		float AcceptanceRadius = 3000.0f;
 
+
 	UFUNCTION()
 		void OnControlledTankDeath();
 };

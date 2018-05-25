@@ -35,10 +35,13 @@ public:
 
 	FTankDelegate OnDeath;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Team")
+		bool TeamFlag = true;
+	UPROPERTY(EditAnywhere, Category = "Setup")
+		float FireRadius = 10000.0f;
 private:
 	UPROPERTY(EditAnywhere, Category = "Health")
 		float MaxHp = 100.0f;
 	UPROPERTY(VisibleAnywhere, Category = "Health")
 		float CurrentHp = MaxHp;
-	
 };

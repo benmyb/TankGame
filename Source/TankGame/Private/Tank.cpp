@@ -41,6 +41,12 @@ float ATank::TakeDamage(float DamageAmount, FDamageEvent const & DamageEvent, AC
 		//Ì¹¿ËËÀÍö
 		//UE_LOG(LogTemp, Warning, TEXT("Tank dead,Tank Name:%s"), *GetName());
 		OnDeath.Broadcast();
+		if (IsPlayerControlled()) {
+
+		}
+		else {
+			Destroy();
+		}
 	}
 	return DamageToApply;
 }
