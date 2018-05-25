@@ -28,16 +28,27 @@ void ATankAIController::SetPawn(APawn * InPawn)
 void ATankAIController::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-	if (GetControlledTank()) {
-		//让坦克向玩家移动
-		//UE_LOG(LogTemp, Warning, TEXT("Player Tank at %s"), *GetPlayerTank()->GetActorLocation().ToString());
-		MoveToActor(GetPlayerTank(), AcceptanceRadius);
+	//if (GetControlledTank()) {
+	//	//让坦克向玩家移动
+	//	//UE_LOG(LogTemp, Warning, TEXT("Player Tank at %s"), *GetPlayerTank()->GetActorLocation().ToString());
+	//	MoveToActor(GetPlayerTank(), AcceptanceRadius);
 
-		auto AimingComponent = GetControlledTank()->FindComponentByClass<UTankAimingComponent>();
-		AimingComponent->AimAt(GetPlayerTank()->GetActorLocation());
-		if (AimingComponent->FiringState == EFiringState::Locked) {
-			AimingComponent->Fire();
-		}
+	//	auto AimingComponent = GetControlledTank()->FindComponentByClass<UTankAimingComponent>();
+	//	AimingComponent->AimAt(GetPlayerTank()->GetActorLocation());
+	//	if (AimingComponent->FiringState == EFiringState::Locked) {
+	//		AimingComponent->Fire();
+	//	}
+	//}
+	TArray<AActor*> FoundActors;
+	ATank* Target = nullptr;
+	UGameplayStatics::GetAllActorsOfClass(GetWorld(), ATank::StaticClass(), FoundActors);
+	Target = Cast<ATank>(FoundActors[FMath::Round(FMath::FRandRange(0, FoundActors.Num() - 1))]);
+
+	MoveToActor(Target, AcceptanceRadius);
+	auto AimingComponent = GetControlledTank()->FindComponentByClass<UTankAimingComponent>();
+	AimingComponent->AimAt(Target->GetActorLocation());
+	if (AimingComponent->FiringState == EFiringState::Locked) {
+		AimingComponent->Fire();
 	}
 }
 
