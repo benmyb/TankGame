@@ -38,7 +38,11 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Team")
 		bool TeamFlag = true;
 	UPROPERTY(EditAnywhere, Category = "Setup")
-		float FireRadius = 10000.0f;
+		float FireRadius = 5000.0f;
+	UPROPERTY(EditAnywhere, Category = "Setup")
+		float AimRadius = 10000.0f;
+	UPROPERTY(EditAnywhere, Category = "Setup")
+		float TraceRadius = 3000.0f;
 private:
 	UPROPERTY(EditAnywhere, Category = "Health")
 		float MaxHp = 100.0f;

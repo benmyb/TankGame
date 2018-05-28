@@ -26,8 +26,6 @@ public:
 	ATank * GetControlledTank();
 	ATank* GetPlayerTank();
 	
-	UPROPERTY(EditAnywhere, Category = "Setup")
-		float AcceptanceRadius = 3000.0f;
 
 
 	UFUNCTION()

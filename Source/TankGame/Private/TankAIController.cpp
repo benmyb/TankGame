@@ -43,7 +43,10 @@ void ATankAIController::Tick(float DeltaTime)
 	ATank* Target = nullptr;
 	UGameplayStatics::GetAllActorsOfClass(GetWorld(), ATank::StaticClass(), FoundActors);
 	TArray<unsigned> enemy;
-	bool myteam = GetControlledTank()->TeamFlag;
+	ATank* controlledTank = GetControlledTank();
+	if (controlledTank == nullptr)return;
+
+	bool myteam = controlledTank->TeamFlag;
 	int actorNum = FoundActors.Num();
 	for (int i = 0; i < actorNum; ++i) {
 		if (Cast<ATank>(FoundActors[i])->TeamFlag == myteam)continue;
@@ -54,10 +57,13 @@ void ATankAIController::Tick(float DeltaTime)
 	index = enemy[index];
 	Target = Cast<ATank>(FoundActors[index]);
 
-	MoveToActor(Target, AcceptanceRadius);
-	auto AimingComponent = GetControlledTank()->FindComponentByClass<UTankAimingComponent>();
-	AimingComponent->AimAt(Target->GetActorLocation());
-	bool isInFireRadius = FVector::Distance(GetControlledTank()->GetActorLocation(), Target->GetActorLocation()) <= (GetControlledTank()->FireRadius);
+	float distance = FVector::Distance(controlledTank->GetActorLocation(), Target->GetActorLocation());
+	bool isInFireRadius = distance <= (controlledTank->FireRadius);
+	bool isInAimRadius = distance <= (controlledTank->AimRadius);
+
+	MoveToActor(Target, controlledTank->TraceRadius);
+	auto AimingComponent = controlledTank->FindComponentByClass<UTankAimingComponent>();
+	if (isInAimRadius)AimingComponent->AimAt(Target->GetActorLocation());
 	if (AimingComponent->FiringState == EFiringState::Locked && isInFireRadius) {
 		AimingComponent->Fire();
 	}
